@@ -36,10 +36,6 @@ class MainActivity : ComponentActivity() {
         }
 
 
-
-
-
-
         enableEdgeToEdge()
         setContent {
             RegistroMedidor_EX_PIITheme {
