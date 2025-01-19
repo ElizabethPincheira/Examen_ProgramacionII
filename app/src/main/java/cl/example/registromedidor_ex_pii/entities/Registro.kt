@@ -5,10 +5,10 @@ import androidx.room.PrimaryKey;
 import java.time.LocalDate
 
 @Entity
-data class Registro (
+data class Registro(
     @PrimaryKey(autoGenerate = true )
     val id:Long?=null,
     val valor_medidor:Int,
-    val fecha:LocalDate,
+    val fecha: LocalDate,
     val tipo_medidor:String
 )
