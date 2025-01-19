@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 data class Registro (
     @PrimaryKey(autoGenerate = true )
     val id:Int,
-    val valor_medidor:String,
+    val valor_medidor:Int,
     val fecha:String,
     val tipo_medidor:String
 )

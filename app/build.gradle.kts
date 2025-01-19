@@ -61,6 +61,8 @@ dependencies {
 
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    ksp(libs.room.annotation.processor)
+    //annotationProcessor(libs.room.annotation.processor)
 
 
 
@@ -72,7 +74,7 @@ dependencies {
     // If this project only uses Java source, use the Java annotationProcessor
     // No additional plugins are necessary
 
-    //annotationProcessor("androidx.room:room-compiler:$room_version")
+
 
     // optional - Kotlin Extensions and Coroutines support for Room
 

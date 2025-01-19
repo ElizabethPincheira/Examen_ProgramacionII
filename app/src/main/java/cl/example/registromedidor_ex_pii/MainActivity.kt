@@ -11,11 +11,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.room.Room
+import cl.example.registromedidor_ex_pii.db.AppDatabase
+import cl.example.registromedidor_ex_pii.entities.Registro
 import cl.example.registromedidor_ex_pii.ui.theme.RegistroMedidor_EX_PIITheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java,"agendadb"
+        ).build()
+
+        val registroDao = db.registroDao()
+        val r= Registro(0, 10500,"2024-10-01", "AGUA")
+        registroDao.insertAll(r)
+
         enableEdgeToEdge()
         setContent {
             RegistroMedidor_EX_PIITheme {
