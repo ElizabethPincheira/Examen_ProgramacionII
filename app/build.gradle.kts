@@ -2,8 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-
-    id("com.google.devtools.ksp") version "2.0.21-1.0.27" apply false
+    alias(libs.plugins.kspPlugin)
 }
 
 android {
@@ -60,7 +59,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
 
-    implementation(libs.androidx.ui)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+
 
 
     // If this project uses any Kotlin source, use Kotlin Symbol Processing (KSP)
