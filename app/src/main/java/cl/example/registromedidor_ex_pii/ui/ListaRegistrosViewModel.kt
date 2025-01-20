@@ -28,10 +28,6 @@ class ListaRegistrosViewModel(private val registroDao: RegistroDao) : ViewModel(
         }
     }
 
-
-
-
-
     //corrutina obteber registro
     fun obtenerRegistros(): List<Registro>{
         viewModelScope.launch(Dispatchers.IO) {
