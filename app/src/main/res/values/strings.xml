@@ -1,3 +1,4 @@
-<resources>
-    <string name="app_name">registroMedidor_EX_PII</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">App Registro Medidor</string>
+    <string name="btn_text_registrar_medicion" tools:ignore="ExtraTranslation">registrar medición</string>
 </resources>

@@ -31,12 +31,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
 //import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-//import androidx.compose.material.icons.filled.Lightbulb
-//import androidx.compose.material.icons.filled.LocalGasStation
+import androidx.compose.material.icons.filled.WaterDrop
+import androidx.compose.material.icons.filled.Lightbulb
+import androidx.compose.material.icons.filled.LocalGasStation
 import androidx.compose.material.icons.filled.Info
-
-
+import androidx.compose.ui.platform.LocalContext
 
 
 class MainActivity : ComponentActivity() {
@@ -122,6 +121,8 @@ fun PantallaFormulario(
     var valor_medidor by rememberSaveable { mutableIntStateOf(0) }
     var fecha by rememberSaveable { mutableStateOf("")}
     var tipo_medidor by rememberSaveable { mutableStateOf("") }
+//variable para que tome el idioma
+    val contexto = LocalContext.current
 
     Column(
         modifier = Modifier.fillMaxSize().padding(horizontal = 20.dp, vertical = 20.dp )
@@ -151,7 +152,7 @@ fun PantallaFormulario(
             vmListaRegistro.insertarRegistro(nuevoRegistro)
             onRegistroExitoso()
         }){
-            Text("Registrar medicion")
+            Text(contexto.getString(R.string.btn_text_registrar_medicion))
         }
     }
 }
@@ -204,9 +205,9 @@ fun RegistroItem(registro: Registro) {
     ) {
         // Ícono representativo del tipo de medición
         val icon = when (registro.tipo_medidor) {
-            "Agua" -> Icons.Filled.Menu
-            //"Luz" -> Icons.Filled.Lightbulb
-            //"Gas" -> Icons.Filled.LocalGasStation
+            "Agua" -> Icons.Filled.WaterDrop
+            "Luz" -> Icons.Filled.Lightbulb
+            "Gas" -> Icons.Filled.LocalGasStation
             else -> Icons.Filled.Info
         }
 
