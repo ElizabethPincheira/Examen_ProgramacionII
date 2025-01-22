@@ -30,6 +30,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
+//import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+//import androidx.compose.material.icons.filled.Lightbulb
+//import androidx.compose.material.icons.filled.LocalGasStation
+import androidx.compose.material.icons.filled.Info
+
+
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,14 +67,19 @@ fun appRegistrosUI(
                 )
         }
         composable("form") {
-            PantallaFormulario()
+            PantallaFormulario(
+                vmListaRegistro = vmListaRegistro,
+                onRegistroExitoso = {navController.popBackStack()}
+            )
         }
     }
 }
 
 
 @Composable
-fun OpcionesTiposUi(){
+fun OpcionesTiposUi(
+    onTipoMedidorSeleccionado:(String) -> Unit
+){
     val tipoMedidores = listOf("Agua", "Luz", "Gas")
     var tipoMedidorSeleccinado by rememberSaveable { mutableStateOf(tipoMedidores[0]) }
 
@@ -77,7 +90,8 @@ fun OpcionesTiposUi(){
                     .height(56.dp)
                     .selectable(
                         selected = (text == tipoMedidorSeleccinado),
-                        onClick = { tipoMedidorSeleccinado = text },
+                        onClick = { tipoMedidorSeleccinado = text
+                            onTipoMedidorSeleccionado(text)},
                         role = Role.RadioButton
                     )
                     .padding(horizontal = 16.dp),
@@ -101,9 +115,13 @@ fun OpcionesTiposUi(){
 //@Preview(showSystemUi = true)
 
 @Composable
-fun PantallaFormulario() {
+fun PantallaFormulario(
+    vmListaRegistro: ListaRegistrosViewModel,
+    onRegistroExitoso:()->Unit
+) {
     var valor_medidor by rememberSaveable { mutableIntStateOf(0) }
-    var fecha by rememberSaveable { mutableStateOf("") }
+    var fecha by rememberSaveable { mutableStateOf("")}
+    var tipo_medidor by rememberSaveable { mutableStateOf("") }
 
     Column(
         modifier = Modifier.fillMaxSize().padding(horizontal = 20.dp, vertical = 20.dp )
@@ -122,10 +140,16 @@ fun PantallaFormulario() {
             label = {Text("Fecha")}
         )
         Text("Medidor de:")
-        OpcionesTiposUi()
+        OpcionesTiposUi(
+            onTipoMedidorSeleccionado = { tipoMedidorSeleccinado ->
+                tipo_medidor = tipoMedidorSeleccinado
+            }
+        )
 
         Button(onClick = {
-
+            val nuevoRegistro = Registro(null,valor_medidor, LocalDate.now(), tipo_medidor)
+            vmListaRegistro.insertarRegistro(nuevoRegistro)
+            onRegistroExitoso()
         }){
             Text("Registrar medicion")
         }
@@ -147,15 +171,71 @@ fun PantallaListaRegistros(
             }
         }
     ){
-        LazyColumn(
-            modifier = Modifier.padding(vertical = it.calculateTopPadding())
+            paddingValues ->
+        LazyColumn (
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
         ) {
-            items(registros) {
-                Text(it.tipo_medidor)
+            items(registros) { registro ->
+                RegistroItem(registro = registro)
+                Divider()   // Línea divisoria entre elementos
+
             }
+//        }
+//        LazyColumn(
+//            modifier = Modifier.padding(vertical = it.calculateTopPadding())
+//        ) {
+//            items(registros) {
+//                Text(it.tipo_medidor)
+//            }
         }
     }
+}
 
+
+@Composable
+fun RegistroItem(registro: Registro) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // Ícono representativo del tipo de medición
+        val icon = when (registro.tipo_medidor) {
+            "Agua" -> Icons.Filled.Menu
+            //"Luz" -> Icons.Filled.Lightbulb
+            //"Gas" -> Icons.Filled.LocalGasStation
+            else -> Icons.Filled.Info
+        }
+
+        Icon(
+            imageVector = icon,
+            contentDescription = registro.tipo_medidor,
+            modifier = Modifier
+                .size(40.dp)
+                .padding(end = 16.dp)
+        )
+
+        // Datos del registro
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(
+                text = registro.tipo_medidor,
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Text(
+                text = "Medición: ${registro.valor_medidor}",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = "Fecha: ${registro.fecha}",
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+    }
 }
 
 

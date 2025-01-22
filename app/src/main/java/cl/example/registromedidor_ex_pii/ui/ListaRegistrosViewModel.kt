@@ -19,6 +19,11 @@ import kotlinx.coroutines.launch
 class ListaRegistrosViewModel(private val registroDao: RegistroDao) : ViewModel() {
 
     var registros by mutableStateOf(listOf<Registro>())
+        private set
+
+    init{
+        obtenerRegistros()
+    }
 
     //corrutina insertar registro
     fun insertarRegistro(registro: Registro){
@@ -28,18 +33,21 @@ class ListaRegistrosViewModel(private val registroDao: RegistroDao) : ViewModel(
         }
     }
 
+
     //corrutina obteber registro
-    fun obtenerRegistros(): List<Registro>{
+    private fun obtenerRegistros()
+//            :List<Registro>
+    {
         viewModelScope.launch(Dispatchers.IO) {
             registros = registroDao.obtenerTodos()
         }
-        return registros
+//        return registros
     }
 
     companion object{
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val savedStateHandle = createSavedStateHandle()
+//                val savedStateHandle = createSavedStateHandle()
                 val aplicacion = (this[APPLICATION_KEY] as Aplicacion)
                 ListaRegistrosViewModel(aplicacion.registroDao)
             }

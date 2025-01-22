@@ -67,6 +67,12 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+// Íconos de Material Design
+    implementation(libs.androidx.material.icons.core)
+    implementation(libs.androidx.material.icons.extended)
+
+
+
 
 
     //ViewModel soporte compose
@@ -76,6 +82,7 @@ dependencies {
     implementation(libs.room.ktx)
     ksp(libs.room.annotation.processor)
     //annotationProcessor(libs.room.annotation.processor)
+
 
 
 
